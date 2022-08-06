@@ -1,0 +1,29 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    io.kompose.service: backend
+  name: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      io.kompose.service: backend
+  strategy: { }
+  template:
+    metadata:
+      labels:
+        io.kompose.network/spring-boot-project: "true"
+        io.kompose.service: backend
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: example
+          image: spring-boot-project_backend:latest
+          imagePullPolicy: Never
+          name: backend
+          ports:
+            - containerPort: 8080
+          resources: { }
+      restartPolicy: Always

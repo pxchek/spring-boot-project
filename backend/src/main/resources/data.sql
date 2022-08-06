@@ -1,0 +1,10 @@
+INSERT INTO GREETINGS(name) values ('Docker');
+INSERT INTO GREETINGS(name) values ('Panindra Chekoori');
+INSERT INTO GREETINGS(name) values ('Lewis Hamilton');
+INSERT INTO GREETINGS(name) values ('Kimi Raikkonen');
+INSERT INTO GREETINGS(name) values ('George Russell');
+INSERT INTO GREETINGS(name) values ('Martin Brundle');
+INSERT INTO GREETINGS(name) values ('Ted Kravitz');
+INSERT INTO GREETINGS(name) values ('David Croft');
+INSERT INTO GREETINGS(name) values ('Toto Wolff');
+INSERT INTO GREETINGS(name) values ('Christian Horner');
