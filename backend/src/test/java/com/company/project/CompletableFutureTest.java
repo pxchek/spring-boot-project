@@ -74,8 +74,9 @@ public class CompletableFutureTest {
 
     private static CompletableFuture<String> asyncResponse(HttpClient client, HttpRequest request) {
 
-        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString()).thenApply((res) -> res.uri() + " | " + res.body() + "\n")
-                .exceptionally(e -> "Exception: " + e);
+        return client.sendAsync(request, HttpResponse.BodyHandlers.ofString())
+                        .thenApply((res) -> res.uri() + " | " + res.body() + "\n")
+                        .exceptionally(e -> "Exception: " + e);
     }
 
     public static void main(String[] args) throws URISyntaxException, ExecutionException, InterruptedException {
