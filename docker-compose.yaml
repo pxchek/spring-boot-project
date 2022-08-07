@@ -19,7 +19,7 @@ services:
       - spring-boot-project
     environment:
       - POSTGRES_DB=example
-      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+      - POSTGRES_PASSWORD=ZGItd3J6MnoK
     expose:
       - 5432
 volumes:
