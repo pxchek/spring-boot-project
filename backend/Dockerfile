@@ -1,31 +1,25 @@
-FROM maven:3.8.5-eclipse-temurin-17 AS builder
-WORKDIR /workdir/server
-COPY ./pom.xml /workdir/server/pom.xml
-RUN mvn dependency:go-offline
+########Maven build########
+FROM maven:3.6-jdk-11 as maven_build
+WORKDIR /app
 
-COPY src /workdir/server/src
-RUN mvn install
+COPY pom.xml .
 
-FROM builder AS dev-envs
-RUN apt-get update apt-get install -y --no-install-recommends git
+RUN mvn clean package -Dmaven.test.skip -Dmaven.main.skip -Dspring-boot.repackage.skip && rm -r target/
 
-RUN useradd -s /bin/bash -m vscode groupadd docker usermod -aG docker vscode
+COPY src ./src
 
-# install Docker tools (cli, buildx, compose)
-COPY --from=gloursdocker/docker / /
-CMD ["mvn", "spring-boot:run"]
+RUN mvn clean package  -Dmaven.test.skip
 
-FROM builder as prepare-production
-RUN mkdir -p target/dependency
-WORKDIR /workdir/server/target/dependency
-RUN jar -xf ../*.jar
+RUN mkdir -p target/docker-packaging && cd target/docker-packaging && jar -xf ../*.jar
 
-FROM eclipse-temurin:17-jre-focal
+########JRE build########
+FROM openjdk:11.0-jre
+WORKDIR /app
 
-EXPOSE 8080
-VOLUME /tmp
-ARG DEPENDENCY=/workdir/server/target/dependency
-COPY --from=prepare-production ${DEPENDENCY}/BOOT-INF/lib /app/lib
-COPY --from=prepare-production ${DEPENDENCY}/META-INF /app/META-INF
-COPY --from=prepare-production ${DEPENDENCY}/BOOT-INF/classes /app
-ENTRYPOINT ["java","-cp","app:app/lib/*","com.company.project.Application"]
+ARG DOCKER_PACKAGING_DIR=/app/target/docker-packaging
+COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/BOOT-INF/lib /app/lib
+COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/BOOT-INF/classes /app/classes
+COPY --from=maven_build ${DOCKER_PACKAGING_DIR}/META-INF /app/META-INF
+
+#run the app
+CMD java -cp .:classes:lib/* com.company.project.Application
