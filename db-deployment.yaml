@@ -20,7 +20,7 @@ spec:
             - name: POSTGRES_DB
               value: example
             - name: POSTGRES_PASSWORD
-              value: "ZGItd3J6MnoK"
+              value: ZGItd3J6MnoK
           image: postgres:latest
           imagePullPolicy: Never
           name: db
@@ -34,4 +34,4 @@ spec:
       volumes:
         - name: db-data
           persistentVolumeClaim:
-            claimName: db-data
+            claimName: db-pvc
