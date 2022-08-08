@@ -12,8 +12,8 @@ RUN mvn clean package  -Dmaven.test.skip
 
 RUN mkdir -p target/docker-packaging && cd target/docker-packaging && jar -xf ../*.jar
 
-########JRE build########
-FROM openjdk:11.0-jre
+########JDK/JRE build########
+FROM openjdk:11
 WORKDIR /app
 
 ARG DOCKER_PACKAGING_DIR=/app/target/docker-packaging
