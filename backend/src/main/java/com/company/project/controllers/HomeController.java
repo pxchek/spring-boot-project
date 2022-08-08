@@ -11,12 +11,17 @@ import org.springframework.web.bind.annotation.PathVariable;
 @Controller
 public class HomeController {
 
+    private final GreetingRepository repository;
+
     @Autowired
-    private GreetingRepository repository;
+    public HomeController(GreetingRepository repository) {
+        this.repository = repository;
+    }
 
     @GetMapping("/{id}")
     public String showHome(@PathVariable int id, Model model) {
         Greeting dockerGreeting = repository.findById(id).orElse(new Greeting("Hello from Kubernetes"));
+        System.out.println("Hello from " +dockerGreeting.getName());
         model = model.addAttribute("name", dockerGreeting.getName());
         return "home";
     }
