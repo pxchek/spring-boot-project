@@ -5,10 +5,9 @@ metadata:
     io.kompose.service: backend
   name: backend
 spec:
-  type: NodePort
+  type: ClusterIP
   ports:
     - port: 8080
       targetPort: 8080
-      nodePort: 30007
   selector:
     io.kompose.service: backend
