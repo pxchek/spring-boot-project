@@ -3,7 +3,7 @@ kind: NetworkPolicy
 metadata:
   labels:
     io.kompose.service: db-access
-  name: db
+  name: db-access-policy
 spec:
   podSelector:
     matchLabels:
