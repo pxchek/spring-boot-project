@@ -25,21 +25,5 @@ spec:
           name: backend
           ports:
             - containerPort: 8080
-              name: backend-port
-          startupProbe:
-            httpGet:
-              port: backend-port
-              path: /
-          readinessProbe:
-            httpGet:
-              port: backend-port
-              path: /
-            initialDelaySeconds: 5
-          livenessProbe:
-            httpGet:
-              port: backend-port
-              path: /
-            initialDelaySeconds: 10
-            periodSeconds: 30
           resources: { }
       restartPolicy: Always
