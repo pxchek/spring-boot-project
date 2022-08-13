@@ -1,6 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
+  namespace: myapp-test
   labels:
     io.kompose.service: backend
   name: backend
@@ -12,6 +13,7 @@ spec:
   strategy: { }
   template:
     metadata:
+      namespace: myapp-test
       labels:
         io.kompose.network/spring-boot-project: "true"
         io.kompose.service: backend
