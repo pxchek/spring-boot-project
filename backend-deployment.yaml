@@ -26,12 +26,15 @@ spec:
           ports:
             - containerPort: 8080
           resources: { }
-          command: [ "/bin/sh" ]
-          args: [ "-c", "while true; do touch /tmp/heartbeat.txt; sleep 5; done;" ]
+          args:
+            - /bin/sh
+            - -c
+            - touch /tmp/healthy; sleep 30; rm -f /tmp/healthy; sleep 600
           livenessProbe:
-            exec:
-              command:
-                - test `find /tmp/heartbeat.txt -mmin -1`
-            initialDelaySeconds: 5
-            periodSeconds: 30
+              exec:
+                command:
+                  - cat
+                  - /tmp/healthy
+              initialDelaySeconds: 10
+              periodSeconds: 10
       restartPolicy: Always
