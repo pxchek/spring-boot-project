@@ -29,12 +29,12 @@ spec:
           args:
             - /bin/sh
             - -c
-            - while true; do touch /heartbeat.txt; sleep 5; done;
+            - while true; do touch heartbeat.txt; sleep 5; done;
           livenessProbe:
               exec:
                 command:
                   - test
-                  - find /heartbeat.txt -mmin -1
+                  - find heartbeat.txt -mmin -1
               initialDelaySeconds: 5
               periodSeconds: 30
       restartPolicy: Always
